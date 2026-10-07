@@ -1,0 +1,73 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+repositories {
+	mavenCentral()
+}
+
+loom {
+	splitEnvironmentSourceSets()
+	mods {
+		"passthrough" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+	runs {
+		// dev client: a fixed window size so the camera/projection maths is easy to check
+		client {
+			programArgs "--width", "1920", "--height", "1080"
+			vmArgs "--enable-native-access=ALL-UNNAMED"
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// WebSocket server the host game's script connects to (FiveM NUI can only speak WebSocket/HTTP)
+	implementation "org.java-websocket:Java-WebSocket:1.6.0"
+	include "org.java-websocket:Java-WebSocket:1.6.0"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+	filesMatching("fabric.mod.json") { expand "version": version }
+}
+
+tasks.withType(JavaCompile).configureEach { it.options.release = 25 }
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+// Headless input ABI regression; uses cached game classes and creates no game window.
+sourceSets {
+    inputTest {
+        compileClasspath += sourceSets.main.output + sourceSets.client.output + sourceSets.client.compileClasspath
+        runtimeClasspath += output + compileClasspath + sourceSets.client.runtimeClasspath
+    }
+}
+tasks.register('inputRegression', JavaExec) {
+    dependsOn tasks.named('inputTestClasses')
+    classpath = sourceSets.inputTest.runtimeClasspath
+    mainClass = 'dev.rehan.passthrough.client.InputRegression'
+    workingDir = layout.buildDirectory.dir('input-regression').get().asFile
+    jvmArgs '--enable-native-access=ALL-UNNAMED', '-Djava.awt.headless=true'
+    doFirst { workingDir.mkdirs() }
+}
+tasks.named('check') { dependsOn tasks.named('inputRegression') }
+
+tasks.register('groundRegression', JavaExec) {
+    dependsOn tasks.named('inputTestClasses')
+    classpath = sourceSets.inputTest.runtimeClasspath
+    mainClass = 'dev.rehan.passthrough.GroundRegression'
+    workingDir = layout.buildDirectory.dir('ground-regression').get().asFile
+    jvmArgs '--enable-native-access=ALL-UNNAMED', '-Djava.awt.headless=true'
+    doFirst { workingDir.mkdirs() }
+}
+tasks.named('check') { dependsOn tasks.named('groundRegression') }

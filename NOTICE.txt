@@ -1,0 +1,9 @@
+This AI-assisted V2 prototype adapts Universal Modder's Minecraft/GTA passthrough example for Escape the Backrooms. Original notices and the MIT license are retained in LICENSE and LICENSE-Universal-Modder.txt.
+
+ReShade API headers retain their upstream notices and BSD-3-Clause/MIT terms; see LICENSE-ReShade.txt. ReShade.fxh is marked CC0-1.0.
+
+The separately installed EscapeTheBackroomsCommunity UE4SS loader is not bundled. Its license is provided for attribution in LICENSE-UE4SS.txt.
+
+Gradle Wrapper scripts and the required build-tool JAR are redistributed under Apache-2.0; see LICENSE-Gradle.txt.
+
+No Minecraft or Escape the Backrooms retail files, extracted assets, decompiled game source, saves, personal runtime logs, or account credentials are included.

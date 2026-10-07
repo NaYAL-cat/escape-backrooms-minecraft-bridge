@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "etb_minecraft_bridge",
+	"version": "${version}",
+	"name": "Minecraft in Escape the Backrooms",
+	"description": "Connects Minecraft 26.3 to Escape the Backrooms for local camera-synced color and depth compositing.",
+	"authors": [
+		"rehan"
+	],
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.rehan.passthrough.Passthrough"
+		],
+		"client": [
+			"dev.rehan.passthrough.client.PassthroughClient"
+		]
+	},
+	"mixins": [
+		"passthrough.mixins.json",
+		{
+			"config": "passthrough.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

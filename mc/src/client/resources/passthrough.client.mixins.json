@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "dev.rehan.passthrough.client.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "CameraMixin",
+    "FogRendererMixin",
+    "GameRendererMixin",
+    "GlCommandEncoderMixin",
+    "KeyMappingAccessor",
+    "ScreenMixin",
+    "RemoteMouseMixin",
+    "RemotePlayerMixin",
+    "ClientSurfaceMixin",
+    "RemoteInteractionMixin",
+    "BridgeFramerateMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

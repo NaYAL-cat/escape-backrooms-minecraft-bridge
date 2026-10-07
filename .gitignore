@@ -1,0 +1,30 @@
+# Generated output and local game/account data
+.gradle/
+**/build/
+**/run/
+**/__pycache__/
+*.pyc
+*.class
+*.obj
+*.pdb
+*.exe
+*.dll
+*.addon64
+logs/
+runtime/
+.test-tmp/
+bridge/state/
+paths.local.ps1
+.env
+.env.*
+*.pem
+*.key
+*.csv
+*.log
+*.zip
+*.pak
+*.utoc
+*.ucas
+saves/
+.minecraft/
+# The wrapper is required to build and is covered by LICENSE-Gradle.txt.
